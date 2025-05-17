@@ -103,4 +103,4 @@ Output directory will be created: `recon-example.com/`
 
 ## 👤 Author
 
-Recon automation script by \[YourNameHere] – feel free to modify and improve!
+Recon automation script by [Me](https://github.com/MohammadAliMehri/) – feel free to modify and improve!
