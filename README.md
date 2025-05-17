@@ -1,119 +1,106 @@
-📋 Recon Automation Script
+# 📋 Recon Automation Script
 
 This is a Bash-based reconnaissance automation script for bug bounty and penetration testing. It collects subdomains, checks which ones are alive, gathers URLs from public archives, detects technologies used by alive hosts, and performs basic directory fuzzing.
 
-This script is Kali Linux friendly – all dependencies are either pre-installed or can be easily installed on Kali.
+This script is **Kali Linux friendly** – all dependencies are either pre-installed or can be easily installed on Kali.
 
-🚀 Usage
+---
 
-./recon.sh domain.com
+## 🚀 Usage
 
-All output will be stored in a directory named: recon-domain.com.
+```bash
+./auto-recon.sh domain.com
+```
 
-🧰 Features
+All output will be stored in a directory named: `recon-domain.com`.
 
-Passive subdomain enumeration using:
+---
 
-amass
+## 🧰 Features
 
-subfinder
+* Passive subdomain enumeration using:
 
-assetfinder
+  * `amass`
+  * `subfinder`
+  * `assetfinder`
+* Alive subdomain check with `httpx-toolkit` (⚠️ Not ProjectDiscovery's `httpx`)
+* URL collection from:
 
-Alive subdomain check with httpx-toolkit (⚠️ Not ProjectDiscovery's httpx)
+  * `gau` (GetAllUrls)
+  * `waybackurls`
+* Technology fingerprinting via `whatweb`
+* Directory brute-forcing (top 20 alive subs) using `dirsearch`
 
-URL collection from:
+---
 
-gau (GetAllUrls)
+## 🛠️ Installation (Dependencies)
 
-waybackurls
+### ✅ Tools Required
 
-Technology fingerprinting via whatweb
+| Tool              | Install Command                                                               |
+| ----------------- | ----------------------------------------------------------------------------- |
+| amass             | `sudo apt install amass`                                                      |
+| subfinder         | `go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest` |
+| assetfinder       | `go install github.com/tomnomnom/assetfinder@latest`                          |
+| gau               | `go install github.com/lc/gau/v2/cmd/gau@latest`                              |
+| waybackurls       | `go install github.com/tomnomnom/waybackurls@latest`                          |
+| whatweb           | `sudo apt install whatweb`                                                    |
+| dirsearch         | `git clone https://github.com/maurosoria/dirsearch.git`                       |
+| **httpx-toolkit** | `sudo apt install httpx-toolkit`                                              |
 
-Directory brute-forcing (top 20 alive subs) using dirsearch
+---
 
-🛠️ Installation (Dependencies)
+### ⚠️ Important Note on `httpx-toolkit`
 
-✅ Tools Required
+This script uses **`httpx-toolkit`**, NOT the more common `httpx` by ProjectDiscovery.
 
-Tool
+If you're using **Kali Linux**, you can install it with:
 
-Install Command
-
-amass
-
-sudo apt install amass
-
-subfinder
-
-go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
-
-assetfinder
-
-go install github.com/tomnomnom/assetfinder@latest
-
-gau
-
-go install github.com/lc/gau/v2/cmd/gau@latest
-
-waybackurls
-
-go install github.com/tomnomnom/waybackurls@latest
-
-whatweb
-
-sudo apt install whatweb
-
-dirsearch
-
-git clone https://github.com/maurosoria/dirsearch.git
-
-httpx-toolkit
-
+```bash
 sudo apt install httpx-toolkit
-
-⚠️ Important Note on httpx-toolkit
-
-This script uses httpx-toolkit, NOT the more common httpx by ProjectDiscovery.
-
-If you're using Kali Linux, you can install it with:
-
-sudo apt install httpx-toolkit
+```
 
 Verify it with:
 
+```bash
 httpx-toolkit -h
+```
 
-✅ This version is compatible with the script and supported in Kali Linux.
+✅ This version is compatible with the script and supported in **Kali Linux**.
 
-📂 Output Files
+---
 
-amass.txt, subfinder.txt, assetfinder.txt: Raw subdomains from tools
+## 📂 Output Files
 
-all_subs.txt: Merged and deduplicated subdomains
+* `amass.txt`, `subfinder.txt`, `assetfinder.txt`: Raw subdomains from tools
+* `all_subs.txt`: Merged and deduplicated subdomains
+* `alive.txt`: Subdomains that responded over HTTP/HTTPS
+* `gau.txt`, `wayback.txt`, `all_urls.txt`: Discovered URLs
+* `tech.txt`: Technology stack info (via `whatweb`)
+* `dirsearch-*.txt`: Directory brute-force results
 
-alive.txt: Subdomains that responded over HTTP/HTTPS
+---
 
-gau.txt, wayback.txt, all_urls.txt: Discovered URLs
+## 📌 Notes
 
-tech.txt: Technology stack info (via whatweb)
+* Script focuses on **passive** recon (except `dirsearch`)
+* Only **top 20** alive subdomains are fuzzed for performance
 
-dirsearch-*.txt: Directory brute-force results
+---
 
-📌 Notes
+## 🧪 Sample Run
 
-Script focuses on passive recon (except dirsearch)
+```bash
+chmod +x auto-recon.sh
+./auto-recon.sh example.com
+```
 
-Only top 20 alive subdomains are fuzzed for performance
+Output directory will be created: `recon-example.com/`
 
-🧪 Sample Run
+---
 
-chmod +x recon.sh
-./recon.sh example.com
+---
 
-Output directory will be created: recon-example.com/
+## 👤 Author
 
-👤 Author
-
-Recon automation script by [YourNameHere] – feel free to modify and improve!
-
+Recon automation script by \[YourNameHere] – feel free to modify and improve!
